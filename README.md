@@ -13,9 +13,11 @@ JDK 17+
 
 Maven
 
-Appium server
+Appium server(operated via CLI in intelliJ)
 
-Android SDK & Emulator
+Android Studio
+
+Appium Inspector(browser version used)
 
 Node.js 
 
