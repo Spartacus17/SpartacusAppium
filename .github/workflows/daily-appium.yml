@@ -1,0 +1,61 @@
+# .github/workflows/daily-appium.yml
+name: Daily Appium Tests (08:00 IST)
+
+# Runs at 02:30 UTC which is 08:00 IST
+on:
+  schedule:
+    - cron: '30 2 * * *'   # every day at 02:30 UTC => 08:00 IST
+  # optional: allow manual runs from UI
+  workflow_dispatch:
+
+jobs:
+  android-appium:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Appium
+        run: |
+          npm install -g appium
+          appium --version
+
+      - name: Start Appium server (background)
+        run: |
+          nohup appium server -p 4723 --allow-cors &
+
+      - name: Launch Android emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 30
+          target: google_apis
+          arch: x86_64
+          avd-name: Medium Phone API 36.0
+          emulator-options: -no-window -no-audio -no-boot-anim
+
+      - name: Run Appium tests
+        # Replace with your test command: mvn test, gradle connectedAndroidTest, or mvn -Dtest=... test
+        run: mvn -B test
+
+      - name: Upload test artifacts (logs, screenshots, reports)
+        uses: actions/upload-artifact@v4
+        with:
+          name: appium-test-results
+          path: |
+            target/surefire-reports/**
+            build/reports/**
+            screenshots/**
+
