@@ -42,7 +42,7 @@ jobs:
         with:
           api-level: 30
           target: google_apis
-          arch: x86_64
+          arch: arm64-v8a
           avd-name: MediumPhoneAPI36
           force-avd-creation: true
           emulator-boot-timeout: 1200   # <— only fix #1 applied
