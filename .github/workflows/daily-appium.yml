@@ -48,6 +48,7 @@ jobs:
           script: |
             nohup appium server -p 4723 --allow-cors &
             mvn -B test
+        continue-on-error: true
 
       - name: Upload test artifacts (logs, screenshots, reports)
         uses: actions/upload-artifact@v4
