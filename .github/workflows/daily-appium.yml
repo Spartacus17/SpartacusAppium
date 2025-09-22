@@ -10,7 +10,7 @@ on:
 
 jobs:
   android-appium:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     timeout-minutes: 90
 
     steps:
