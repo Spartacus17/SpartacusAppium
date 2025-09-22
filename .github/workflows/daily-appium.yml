@@ -10,7 +10,7 @@ on:
 
 jobs:
   android-appium:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     timeout-minutes: 90
 
     steps:
@@ -43,12 +43,13 @@ jobs:
           api-level: 30
           target: google_apis
           arch: x86_64
-          avd-name: Medium Phone API 36.0
-          emulator-options: -no-window -no-audio -no-boot-anim
-
-      - name: Run Appium tests
-        # Replace with your test command: mvn test, gradle connectedAndroidTest, or mvn -Dtest=... test
-        run: mvn -B test
+          avd-name: MediumPhoneAPI36
+          force-avd-creation: true
+          emulator-boot-timeout: 1200   # <— only fix #1 applied
+          disable-animations: true
+          script: |
+            nohup appium server -p 4723 --allow-cors &
+            mvn -B test
 
       - name: Upload test artifacts (logs, screenshots, reports)
         uses: actions/upload-artifact@v4
