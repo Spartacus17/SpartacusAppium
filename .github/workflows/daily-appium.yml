@@ -43,7 +43,7 @@ jobs:
           api-level: 30
           target: google_apis
           arch: x86_64
-          avd-name: Medium Phone API 36.0
+          avd-name: MediumPhoneAPI36
           emulator-options: -no-window -no-audio -no-boot-anim
           script: |
             nohup appium server -p 4723 --allow-cors &
